@@ -6,13 +6,15 @@ import EmployeeRoute from "./routes/EmployeeRoute.js";
 import ExpenseRoute from "./routes/ExpenseRoute.js";
 import CategoryRoute from "./routes/categoryRoute.js";
 import cors from "cors";
-const app = express();
+import dotenv from "dotenv";
 
+const app = express();
+dotenv.config();
 app.use(cors());
 app.use(express.json());
 const connect = async ()=>{
     try{
-        await mongoose.connect("mongodb+srv://suyashjaiswal2001:991Rc0IH2sXsp0Et@cluster0.qvlmcbx.mongodb.net/ExpenseDb");
+        await mongoose.connect(process.env.MONGO);
         console.log("Connected to DB");
     }catch(err){
         console.log(err);
