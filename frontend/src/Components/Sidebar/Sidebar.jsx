@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import './sidebar.css'
 import { useNavigate } from 'react-router-dom';
 import { IoLogOutOutline } from "react-icons/io5";
+import img from "./1.jpg"
 
 export default function Sidebar() {
 
     // const History = useHistory();
+    const [activeTab,setActiveTab] = useState("My Expenses");
     const navigate = useNavigate();
     const TABS = [
         {
@@ -24,7 +26,9 @@ export default function Sidebar() {
         <div className='sidebar-container'>
             <div className='sidebar-contents'>
                 <div className="user-details">
-                    <img src={url} alt='img'/>
+                    <div className="img-class">
+                        <img src={img} alt='img'/>
+                    </div>
                     <h3>Suyash Jaiswal</h3>
                     <p style={{wordWrap:"break-word"}}> suyashjaiswal2001@gmail.com</p>
                     <div className="options" style={{display:"flex",margin:"20px 0 10px 0",fontSize:"19px",alignItems:"center",cursor:"pointer"}}>
@@ -34,10 +38,11 @@ export default function Sidebar() {
                     <hr/>
                 </div>
                 <div className='sidebar-tabs'>
-                   {TABS.map((item) => {
-                        return (<p onClick={()=>{
+                   {TABS.map((item,index) => {
+                        return (<p key={index} onClick={()=>{
+                            setActiveTab(item.name)
                             navigate(item.path)
-                        }} className='sidebar-tab'>{item.name}</p>)
+                        }} className={`sidebar-tab ${item.name===activeTab?"active":" "}`} >{item.name}</p>)
                     })}
                 </div>
             </div>

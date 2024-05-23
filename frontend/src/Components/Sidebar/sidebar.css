@@ -13,10 +13,13 @@
 }
 
 img{
-  height: 60px;
+  object-fit: cover;
+  object-position:top;
+  height: 80px;
   width: 80px;
+  border-radius: 100%;
   margin-bottom: 20px;
-  margin-left: -20px;
+  margin-left: 20px;
 }
 
 .sidebar-container::-webkit-scrollbar {
@@ -39,5 +42,9 @@ img{
 
   .sidebar-tab:hover{
      background-color: rgb(192, 187, 187);
+    box-shadow: 2px 2px 2px 1px gray;
+  }
+  .sidebar-tab.active{
+    background-color: rgb(192, 187, 187);
     box-shadow: 2px 2px 2px 1px gray;
   }
