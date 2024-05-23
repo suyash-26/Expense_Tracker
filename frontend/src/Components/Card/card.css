@@ -1,0 +1,33 @@
+.cards-wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.card-container{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width: 28%;
+    height: 180px;
+    justify-content: space-between;
+    border: 2px solid #d0d5dd;
+    border-radius: 20px;
+    box-shadow: 1px 1px 1px 1px gray;
+}
+.row1{
+    word-break: break-all;
+    font-family: 'Times New Roman', Times, serif;
+    position: relative;
+}
+.row2{
+    word-break: break-all;
+}
+
+.status{
+    position: absolute;
+    right: 10px;
+    top:7px;
+    color:coral;
+}

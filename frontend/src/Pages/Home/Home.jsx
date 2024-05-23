@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navigation from '../../Components/NavigationBar/Navigation'
 import { Routes, Route, useNavigate } from 'react-router'
 import Pending from '../Expenses/Pending/Pending';
@@ -7,8 +7,11 @@ import Declined from '../Expenses/Declined/Declined';
 import Button from '../../Components/Button/Button';
 import "./home.css"
 import { Link } from 'react-router-dom';
+import MiniTabBar from '../../Components/MiniTabBar/MiniTabBar';
 
 export default function Home() {
+
+  const [active,setActive] = useState()
 
   const navigate = useNavigate();
   const expenseTabs = [
@@ -34,26 +37,16 @@ export default function Home() {
           <Button value="+ Add Expense"/>
         </div>
         <div className='Tabs-Wrapper' style={{padding:"0px 30px 10px 30px"}}>
-          <div className="tabs" style={{display:"flex",boxShadow:"1px 2px 2px 2px gray"}}>
+          {/* <div className="tabs" style={{display:"flex",boxShadow:"1px 2px 2px 2px gray"}}>
             {
               expenseTabs.map((item,index)=>{
-                return(<div key={index} className="tab active-line" onClick={()=>{navigate(item.path)}} style={{padding:"6px 20px 6px 20px",backgroundColor:"white",margin:"0px 10px 10px 0px",textAlign:"center",cursor:"pointer"}}>
-                  {item.name}
+                return(<div key={index} className="tab" onClick={()=>{navigate(item.path)}} style={{padding:"6px 20px 6px 20px",backgroundColor:"white",margin:"0px 10px 10px 0px",textAlign:"center",cursor:"pointer"}}>
+                  <p className='active-line'>{item.name}</p>
                 </div>)
               })
             }
-            {/* {
-              expenseTabs.map((item)=>{
-                return(
-                  <Link to={item.path}>
-                <div className="tab active-line" style={{padding:"6px 20px 6px 20px",backgroundColor:"white",margin:"0px 10px 10px 0px",textAlign:"center",cursor:"pointer"}}>
-                  {item.name}
-                </div>
-                </Link>
-                )
-              })
-            } */}
-          </div>
+          </div> */}
+          <MiniTabBar TABS={expenseTabs}/>
           <div className="expenseContents">
             <Routes>
               <Route path=''  element={<Pending/>}/>

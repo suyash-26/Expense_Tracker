@@ -7,9 +7,8 @@ export default function Navigation({title}) {
   return (
     <>
         <div  className="navbar" style={{backgroundColor:"white",
-    width:"100%",
-    padding:"10px",
-    paddingLeft:"30px",
+    // width:"100%",
+    padding:"10px 0px 10px 20px",
     display:"flex",
     alignItems:"center",
     fontSize:"24px",
