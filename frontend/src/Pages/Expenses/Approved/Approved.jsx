@@ -1,7 +1,10 @@
 import React from 'react'
+import PaginationTable from '../../../Components/PaginationTable/PaginationTable'
 
 export default function Approved() {
   return (
-    <div>This is Approved Expenses</div>
+    <div style={{paddingTop:"40px"}}>
+          <PaginationTable status={"Approved"}/>
+      </div>
   )
 }

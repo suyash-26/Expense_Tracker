@@ -1,11 +1,11 @@
 import React from 'react'
 import Card from '../Card/Card'
 
-export default function PaginationTable() {
+export default function PaginationTable({creator,status}) {
   return (
     <>
         <div className="table-container">
-            <Card/>
+            <Card creator={creator} status={status}/>
         </div>
     </>
   )
