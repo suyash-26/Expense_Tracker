@@ -13,7 +13,9 @@ export default function Navigation({title}) {
     alignItems:"center",
     fontSize:"24px",
     zIndex:2,
-    boxShadow: "2px 2px 2px 2px gray"}}>
+    position:"sticky",
+    top:"0px",
+    boxShadow: "1px 1px 1px 1px gray"}}>
             < MdOutlineKeyboardBackspace/>
             <p style={{margin:"10px"}}>{title}</p>
         </div>

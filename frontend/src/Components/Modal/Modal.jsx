@@ -9,14 +9,14 @@ export default function Modal({children,onClose,title,subtitle}) {
             <div className="modal-container" style={{position:"relative",height:"500px",width:"450px",backgroundColor:"white"
             ,border: "2px solid #e4e7ec",borderRadius:"10px",overflowY:"scroll"}}>
                 <div className="header" style={{position:"sticky",top:"0px",left:"0px",padding:"20px",backgroundColor:"white"}}>
-                    <h2 className="title">{title}</h2>
-                    <p className="subTitle">{subtitle}</p>
+                    <h2 className="title">{title || "Title"}</h2>
+                    <p className="subTitle">{subtitle || "subTitle"}</p>
                     <h3 className='close-btn' style={{position:"absolute",top:"10px",right:"20px",fontSize:"20px",cursor:"pointer"}} onClick={onClose}>X</h3>
                 </div>
                 <div className="contents">
                     {children}
                 </div>
-                <div className="footer" style={{position:"sticky",bottom:"0px",left:"0px",width:"100%"}}>
+                <div className="footer" style={{position:"absolute",bottom:"0px",left:"0px",width:"100%"}}>
                     <button style={{width:"100%",padding:"6px",color:"red",backgroundColor:"rgb(224, 180, 180)",cursor:"pointer",border:"none"}}>Withdraw</button>
                 </div>
             </div>
