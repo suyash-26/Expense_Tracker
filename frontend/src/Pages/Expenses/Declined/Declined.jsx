@@ -1,10 +1,10 @@
 import React from 'react'
 import PaginationTable from '../../../Components/PaginationTable/PaginationTable'
 
-export default function Declined() {
+export default function Declined({data}) {
   return (
     <div style={{paddingTop:"40px"}}>
-          <PaginationTable status="Declined"/>
+          <PaginationTable data={data} status="Declined"/>
       </div>
   )
 }

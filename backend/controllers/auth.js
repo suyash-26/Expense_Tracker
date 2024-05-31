@@ -17,7 +17,7 @@ export const login = async (req,res,next) =>{
         if(!isPasswordCorrect){
             return next(createError(400,"Wrong Password"));
         }
-        res.status(200).send('You are logged in');
+        res.status(200).send(user);
     }catch(err){
         next(err);
     }

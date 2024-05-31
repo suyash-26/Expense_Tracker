@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Navigation from '../../Components/NavigationBar/Navigation'
 import { Routes, Route, useNavigate } from 'react-router'
 import Pending from '../Expenses/Pending/Pending';
@@ -9,10 +9,29 @@ import "./home.css"
 import { Link } from 'react-router-dom';
 import MiniTabBar from '../../Components/MiniTabBar/MiniTabBar';
 import Modal from '../../Components/Modal/Modal';
+import axios from 'axios';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function Home() {
   const navigate = useNavigate();
   const [addExpenseModal,setExpenseModal] = useState(false);
+  const [data,setData] = useState({
+    type:"Electronics",
+  });
+  const {user} = useContext(AuthContext);
+  const [expenses,setExpenses] = useState([{type:"hello"}]);
+
+  useEffect(()=>{
+    const fetchExpenses = async()=>{
+      try{
+        const data = await axios.get(`/expenses/allexpenses/${user.id}`);
+        setExpenses(data.data);
+      }catch(err){
+        throw err;
+      }
+    }
+    fetchExpenses();
+  },[])
   const expenseTabs = [
     {
       "name":"Pending",
@@ -27,6 +46,60 @@ export default function Home() {
       "path":"/myexpenses/declined"
     },
   ]
+
+  const submitExpense = async ()=>{
+
+    const dataToSend = {
+      type:data.type,
+      amount: data.amount,
+      desc: data.description,
+      status:'Pending',
+      empId: user.id,
+      photo: '',
+      comment:'',
+    }
+
+    try{
+      const res = await axios.post('/expenses',dataToSend);
+      console.log(res);
+      window.location.reload();
+      setExpenseModal(false);
+    }catch(err){
+      throw err;
+    }
+  }
+
+  const actions = [
+    {
+      name:"Submit",
+      style:{
+        color:"white",
+        backgroundColor:"black"
+      },
+      onClick:submitExpense,
+    },
+  ]
+
+  const pendingActions = [
+    {
+      name:"Withdraw",
+      style:{
+        color:"red",
+        backgroundColor:"rgb(241, 149, 149)",
+        onClick:()=>{
+          alert("Expense Deleted");
+        }
+      }
+    }
+  ]
+
+  const handleChange = (e)=>{
+    setData({
+      ...data,
+      [e.target.id] : e.target.value,
+    }); 
+    // console.log(data[e.target.id]);
+  }
 
   return (
     <>
@@ -48,27 +121,27 @@ export default function Home() {
           <MiniTabBar TABS={expenseTabs}/>
           <div className="expenseContents">
             <Routes>
-              <Route path=''  element={<Pending/>}/>
-              <Route path='pending' element={<Pending/>}/>
-              <Route path='approved' element={<Approved/>}/>
-              <Route path='declined' element={<Declined/>}/>
+              <Route path=''  element={<Pending data={expenses} actions={pendingActions}/>}/>
+              <Route path='pending' element={<Pending data={expenses} actions={pendingActions}/>}/>
+              <Route path='approved' element={<Approved data={expenses}/>}/>
+              <Route path='declined' element={<Declined data={expenses} />}/>
             </Routes>
           </div>
         </div>
         {addExpenseModal && 
-          <Modal onClose={()=>setExpenseModal(false)} title="Add Expense" subtitle="Fill the details of your expenses">
+          <Modal onClose={()=>setExpenseModal(false)} title="Add Expense" subtitle="Fill the details of your expenses" actions={actions}>
             <div className="expense-form" style={{display:'flex',flexDirection:"column",padding:'20px',width:"80%"}}>
               <label for="type" style={{marginTop:"20px"}}>Select Type</label>
-              <select id='type' style={{padding:"10px"}}>
-                <option value="someOption">Some option</option>
-                <option value="otherOption">Other option</option>
+              <select id='type' onChange={handleChange} style={{padding:"10px"}}>
+                <option value="Electronics">Electronics</option>
+                <option value="Eatables">Eatables</option>
               </select>
               <label for="amount" style={{marginTop:"20px"}}>Amount</label>
-              <input style={{padding:"10px"}} id="amount" type='number' placeholder='Enter the expense amount'></input>
-              <label for="description" style={{marginTop:"20px"}}>Amount <span>(Optional)</span></label>
-              <input style={{padding:"10px"}} id='description' type='textArea' placeholder='Give some description of expense'></input>
+              <input style={{padding:"10px"}} onChange={handleChange} id="amount" type='number' placeholder='Enter the expense amount' value={data.email}></input>
+              <label for="description" style={{marginTop:"20px"}}>Description <span>(Optional)</span></label>
+              <input style={{padding:"10px"}} onChange={handleChange} value={data.desc} id='description' type='textArea' placeholder='Give some description of expense'></input>
               <label for="docs" style={{marginTop:"20px"}}>Add Attachments</label>
-              <input style={{padding:"10px"}} id="docs" type='file'></input>
+              {/* <input style={{padding:"10px"}} onChange={handleChange} id="docs" type='file'></input> */}
             </div>
           </Modal>
         }

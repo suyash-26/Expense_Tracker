@@ -24,6 +24,28 @@ export default function Aprroval() {
       "path":"/myapprovals/declined"
     },
   ]
+  const pendingActions = [
+    {
+      name: "❌ Decline",
+      style:{
+        color:"red",
+        backgroundColor:"rgb(241, 149, 149)",
+      },
+      onClick:()=>{
+        alert("Expense Declined");
+      }
+    },
+    {
+      name: "✔️ Accept",
+      style:{
+        color:"green",
+        backgroundColor:"lightgreen",
+      },
+      onClick:()=>{
+        alert("Expense Accepted");
+      }
+    }
+  ]
 
   return (
     <>
@@ -45,8 +67,8 @@ export default function Aprroval() {
           <MiniTabBar TABS={expenseTabs}/>
           <div className="expenseContents">
             <Routes>
-              <Route path=''  element={<Pending creator={'true'}/>}/>
-              <Route path='pending' element={<Pending creator={'true'}/>}/>
+              <Route path=''  element={<Pending creator={'true'} actions={pendingActions}/>}/>
+              <Route path='pending' element={<Pending creator={'true'} actions={pendingActions} />}/>
               <Route path='approved' element={<Approved/>}/>
               <Route path='declined' element={<Declined/>}/>
             </Routes>

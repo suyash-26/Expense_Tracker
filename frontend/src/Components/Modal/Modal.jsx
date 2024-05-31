@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Modal({children,onClose,title,subtitle}) {
+export default function Modal({children,onClose,title,subtitle,actions}) {
   return (
     <>
         <div className="madal-wrapper" style={{height:"100vh",width:"100vw",opacity:"2px",display:"flex",justifyContent:"center",alignItems:"center"
@@ -16,8 +16,11 @@ export default function Modal({children,onClose,title,subtitle}) {
                 <div className="contents">
                     {children}
                 </div>
-                <div className="footer" style={{position:"absolute",bottom:"0px",left:"0px",width:"100%"}}>
-                    <button style={{width:"100%",padding:"6px",color:"red",backgroundColor:"rgb(224, 180, 180)",cursor:"pointer",border:"none"}}>Withdraw</button>
+                <div className="footer" style={{position:"absolute",bottom:"0px",left:"0px",width:"100%",display:'flex'}}>
+                   {actions && actions.map((item)=>{
+                        return  <button style={{flex:'1',padding:"6px",cursor:"pointer",border:"none",...item.style}} onClick={item.onClick}>{item.name}</button>
+                    })}
+                    {/* <button style={{width:"100%",padding:"6px",color:"red",backgroundColor:"rgb(224, 180, 180)",cursor:"pointer",border:"none"}}>Withdraw</button> */}
                 </div>
             </div>
         </div>

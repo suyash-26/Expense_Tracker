@@ -1,11 +1,11 @@
 import React from 'react'
 import PaginationTable from '../../../Components/PaginationTable/PaginationTable'
 
-export default function Pending({creator}) {
+export default function Pending({data,creator,actions}) {
   return (
     <>
       <div style={{paddingTop:"40px"}}>
-          <PaginationTable creator={creator} status="Pending"/>
+          <PaginationTable data={data} creator={creator} status="Pending" actions={actions}/>
       </div>
 
     </>

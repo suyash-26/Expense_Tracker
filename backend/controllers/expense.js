@@ -10,6 +10,16 @@ export const getAllExpenses = async (req,res,next) =>{
     }
 }
 
+export const getAllExpensesOfEmp = async(req,res)=>{
+    try{
+        console.log(req.params);
+        const data = await expenses.find({empId:req.params.empId});
+        res.status(200).send(data);
+    }catch(err){
+        res.send(err);
+    }
+}
+
 export const createExpense = async (req,res,next)=>{
     try{
         const newExpense = new expenses(req.body);
