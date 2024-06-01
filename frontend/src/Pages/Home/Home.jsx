@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navigation from '../../Components/NavigationBar/Navigation'
-import { Routes, Route, useNavigate } from 'react-router'
+import { Routes, Route, useNavigate, useParams } from 'react-router'
 import Pending from '../Expenses/Pending/Pending';
 import Approved from '../Expenses/Approved/Approved';
 import Declined from '../Expenses/Declined/Declined';
@@ -20,6 +20,7 @@ export default function Home() {
   });
   const {user} = useContext(AuthContext);
   const [expenses,setExpenses] = useState([{type:"hello"}]);
+
 
   useEffect(()=>{
     const fetchExpenses = async()=>{
@@ -80,14 +81,36 @@ export default function Home() {
     },
   ]
 
+  const deleteExpense =  async (id)=>{
+    // const {id} = useParams();
+    try{
+      const r = await axios.delete(`/expenses/${id}`);
+      navigate(-1);
+      window.location.reload();
+      console.log(r);
+      console.log("deleted");
+    }catch(err){
+      console.log(err);
+    }
+  }
+
   const pendingActions = [
     {
       name:"Withdraw",
       style:{
         color:"red",
         backgroundColor:"rgb(241, 149, 149)",
-        onClick:()=>{
-          alert("Expense Deleted");
+      },
+      onClick:  async (id)=>{
+        // const {id} = useParams();
+        try{
+          const r = await axios.delete(`/expenses/${id}`);
+          console.log(r);
+          console.log("deleted");
+          navigate('/myexpenses/pending');
+          window.location.reload();
+        }catch(err){
+          console.log(err);
         }
       }
     }
@@ -121,10 +144,10 @@ export default function Home() {
           <MiniTabBar TABS={expenseTabs}/>
           <div className="expenseContents">
             <Routes>
-              <Route path=''  element={<Pending data={expenses} actions={pendingActions}/>}/>
-              <Route path='pending' element={<Pending data={expenses} actions={pendingActions}/>}/>
-              <Route path='approved' element={<Approved data={expenses}/>}/>
-              <Route path='declined' element={<Declined data={expenses} />}/>
+              <Route path='/*'  element={<Pending data={expenses} actions={pendingActions}/>}/>
+              <Route path='pending/*' element={<Pending data={expenses} actions={pendingActions}/>}/>
+              <Route path='approved/*' element={<Approved data={expenses}/>}/>
+              <Route path='declined/*' element={<Declined data={expenses} />}/>
             </Routes>
           </div>
         </div>

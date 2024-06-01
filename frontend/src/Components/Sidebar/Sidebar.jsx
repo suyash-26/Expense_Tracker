@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import './sidebar.css'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IoLogOutOutline } from "react-icons/io5";
 import img from "./1.jpg"
 import { AuthContext } from '../../contexts/AuthContext';
@@ -8,7 +8,12 @@ import { AuthContext } from '../../contexts/AuthContext';
 export default function Sidebar() {
 
     // const History = useHistory();
-    const [activeTab,setActiveTab] = useState("My Expenses");
+    const location = useLocation();
+    const {pathname} = location; 
+    const routes = pathname.split('/');
+    const base = routes.length===1 || routes[1] ==="myexpenses"?"My Expenses":"My Approvals";
+    console.log(routes);
+    const [activeTab,setActiveTab] = useState(base);
     const navigate = useNavigate();
     const {user,dispatch} = useContext(AuthContext);
     const TABS = [

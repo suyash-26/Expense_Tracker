@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Navigation from '../../Components/NavigationBar/Navigation'
 import { Routes, Route, useNavigate } from 'react-router'
 import Pending from '../Expenses/Pending/Pending';
@@ -7,9 +7,29 @@ import Declined from '../Expenses/Declined/Declined';
 import Button from '../../Components/Button/Button';
 import { Link } from 'react-router-dom';
 import MiniTabBar from '../../Components/MiniTabBar/MiniTabBar';
+import axios from 'axios';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export default function Aprroval() {
+
+  const [data,setData] = useState([]);
   const navigate = useNavigate();
+  const {user} = useContext(AuthContext);
+  const [comment,setComment] = useState('');
+
+  useEffect(()=>{
+    const fetchData = async(req,res)=>{
+      try{
+        const r = await axios.get(`/employees//teamApprovals/${user.id}`);
+        setData(r.data);
+        console.log(r);
+      }catch(err){
+        throw err;
+      }
+    }
+    fetchData();
+  },[])
+
   const expenseTabs = [
     {
       "name":"Pending",
@@ -31,8 +51,15 @@ export default function Aprroval() {
         color:"red",
         backgroundColor:"rgb(241, 149, 149)",
       },
-      onClick:()=>{
-        alert("Expense Declined");
+      onClick: async (id,comment)=>{
+        try{
+          const res = await axios.put(`/expenses/${id}`,{comment:comment,status:"Declined"});
+          navigate('/myapprovals/pending');
+          window.location.reload();
+          console.log(res);
+        }catch(err){
+          console.log(err);
+        }
       }
     },
     {
@@ -41,8 +68,15 @@ export default function Aprroval() {
         color:"green",
         backgroundColor:"lightgreen",
       },
-      onClick:()=>{
-        alert("Expense Accepted");
+      onClick:async (id,comment)=>{
+        try{
+          const res = await axios.put(`/expenses/${id}`,{comment:comment,status:"Approved"});
+          navigate('/myapprovals/pending');
+          window.location.reload();
+          console.log(res);
+        }catch(err){
+          console.log(err);
+        }
       }
     }
   ]
@@ -67,10 +101,10 @@ export default function Aprroval() {
           <MiniTabBar TABS={expenseTabs}/>
           <div className="expenseContents">
             <Routes>
-              <Route path=''  element={<Pending creator={'true'} actions={pendingActions}/>}/>
-              <Route path='pending' element={<Pending creator={'true'} actions={pendingActions} />}/>
-              <Route path='approved' element={<Approved/>}/>
-              <Route path='declined' element={<Declined/>}/>
+              <Route path='/*'  element={<Pending data={data} creator={'true'} actions={pendingActions}/>}/>
+              <Route path='pending/*' element={<Pending data={data} creator={'true'} actions={pendingActions} />}/>
+              <Route path='approved/*' element={<Approved data={data} creator={'true'} />}/>
+              <Route path='declined/*' element={<Declined data={data} creator={'true'} />}/>
             </Routes>
           </div>
         </div>

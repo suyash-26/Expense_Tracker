@@ -53,3 +53,12 @@ export const updateExpense = async (req,res,next) =>{
         res.send(err);
     }
 }
+
+export const deleteExpense = async(req,res,next) =>{
+    try{
+        const deletedExpense = await expenses.deleteOne({_id:req.params.id});
+        res.send(deletedExpense);
+    }catch(err){
+        res.send(err);
+    }
+}
